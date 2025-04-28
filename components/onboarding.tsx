@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-export default function Onboarding() {
+export default function Onboarding({ setStart }: {setStart: (start: boolean) => void}) {
   return (
     <div className="relative w-full h-screen">
         {/* Background image with lower z-index */}
@@ -32,7 +32,7 @@ export default function Onboarding() {
                 width={250}
                 height={250}
             />
-            <button className="absolute bottom-10 bg-[#d4af37] text-white text-xl font-bold p-5 w-64 rounded-full">Начать</button>
+            <button onClick={() => setStart(true)} className="absolute bottom-10 bg-[#d4af37] text-white text-xl font-bold p-5 w-64 rounded-full">Начать</button>
         </div>
     </div>
   );

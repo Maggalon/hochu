@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Script from "next/script";
+import { TWAProvider } from "../contexts/twa-context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +29,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <TWAProvider>
+          {children}
+        </TWAProvider>
+
+        <Script src="https://telegram.org/js/telegram-web-app.js" />
       </body>
     </html>
   );
