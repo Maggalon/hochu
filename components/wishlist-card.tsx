@@ -11,13 +11,12 @@ interface WishlistCardProps {
 export const WishlistCard = ({ wishlist }: WishlistCardProps) => {
     return (
         <div className="rounded-lg border border-black">
-            <div className="h-48 w-full">
+            <div className="relative h-48 w-full">
                 <Image
                     src={wishlist.coverImage || "/hochu-wishlist-alt.png"}
                     alt={wishlist.name}
-                    width={384}
-                    height={192}
-                    className=" rounded-t-lg"
+                    fill
+                    className="object-cover rounded-t-lg"
                 />
             </div>
             <div className="p-4">
