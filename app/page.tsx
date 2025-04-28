@@ -75,7 +75,7 @@ export default function Home() {
     <div className="w-screen pb-10 px-5">
       <div className='fixed right-0 top-0 shadow-sm bg-white font-bold p-5 w-full text-2xl flex gap-3 items-center justify-between'>
           <div className="flex items-center gap-3">
-            <Smile size={48} className='text-[#d4af37] bg-[#d4af37]/20 rounded-full p-2' />
+            {webApp!.initDataUnsafe.user ? webApp!.initDataUnsafe.user!.photo_url :  <Smile size={48} className='text-[#d4af37] bg-[#d4af37]/20 rounded-full p-2' />}
             {webApp!.initDataUnsafe.user ? webApp!.initDataUnsafe.user!.first_name : "Пользователь"}
           </div>
           <div className="flex items-center gap-3">
