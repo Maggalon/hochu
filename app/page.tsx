@@ -1,7 +1,6 @@
 "use client"
 
 import Image from "next/image";
-import Onboarding from "../components/onboarding";
 import { useContext, useState } from "react";
 import Link from "next/link";
 import { List, PlusCircle, Settings, Smile } from "lucide-react";
@@ -57,26 +56,17 @@ const wishlists_mock: Wishlist[] = [
 
 export default function Home() {
 
-  const [start, setStart] = useState<boolean>(false)
   const [wishlists, setWishlists] = useState<Wishlist[]>(wishlists_mock)
 
   const context = useContext(TWAContext)
   const webApp = context?.webApp
 
-  if (!start) {
-    return (
-      <div className="w-full h-full">
-        <Onboarding setStart={setStart} />
-      </div>
-    );
-  }
-
   return (
     <div className="w-screen pb-10 px-5">
       <div className='fixed right-0 top-0 z-50 shadow-sm bg-white font-bold p-5 w-full text-2xl flex gap-3 items-center justify-between'>
           <div className="flex items-center gap-3">
-            {webApp!.initDataUnsafe.user?.photo_url ? <Image src={webApp!.initDataUnsafe.user!.photo_url!} alt={"Profile pic"} width={48} height={48} className="rounded-full" /> :  <Smile size={48} className='text-[#d4af37] bg-[#d4af37]/20 rounded-full p-2' />}
-            {webApp!.initDataUnsafe.user ? webApp!.initDataUnsafe.user!.first_name : "Пользователь"}
+            {webApp?.initDataUnsafe && webApp!.initDataUnsafe.user?.photo_url ? <Image src={webApp!.initDataUnsafe.user!.photo_url!} alt={"Profile pic"} width={48} height={48} className="rounded-full" /> :  <Smile size={48} className='text-[#d4af37] bg-[#d4af37]/20 rounded-full p-2' />}
+            {webApp?.initDataUnsafe && webApp!.initDataUnsafe.user ? webApp!.initDataUnsafe.user!.first_name : "Пользователь"}
           </div>
           <div className="flex items-center gap-3">
             <List size={48} className='text-[#d4af37] rounded-full' />
@@ -88,7 +78,7 @@ export default function Home() {
       <div className="mt-28 flex items-center justify-between mb-8">
         <h1 className="text-2xl font-bold">Мои вишлисты</h1>
         <Link href="/wishlists/create">
-          <button className="p-2 flex gap-2 items-center bg-[#d4af37] text-white text-lg font-bold rounded-md">
+          <button className={`p-2 flex gap-2 items-center bg-[${webApp?.themeParams.button_color}] text-white text-lg font-bold rounded-md`}>
             <PlusCircle className="h-8 w-8" />
             <span>Создать</span>
           </button>
