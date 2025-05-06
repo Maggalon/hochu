@@ -1,23 +1,22 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-button: var(--tg-theme-button-color);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme {
+  --color-background: var(--tg-theme-bg-color, #ffffff);
+  --color-text: var(--tg-theme-text-color, #000000);
+  --color-hint: var(--tg-theme-hint-color, #999999);
+  --color-link: var(--tg-theme-link-color, #168acd);
+  --color-button: var(--tg-theme-button-color, #40a7e3);
+  --color-button-text: var(--tg-theme-button-text-color, #ffffff);
+  --color-secondary-background: var(--tg-theme-secondary-bg-color, #f1f1f1);
+  --color-header-background: var(--tg-theme-header-bg-color, #ffffff);
+  --color-bottom-bar-background: var(--tg-theme-bottom-bar-bg-color, #ffffff);
+  --color-accent-text: var(--tg-theme-accent-text-color, #168acd);
+  --color-section-background: var(--tg-theme-section-bg-color, #ffffff);
+  --color-section-header-text: var(--tg-theme-section-header-text-color, #168acd);
+  --color-section-separator: var(--tg-theme-section-separator-color, #e7e7e7);
+  --color-subtitle-text: var(--tg-theme-subtitle-text-color, #999999);
+  --color-destructive-text: var(--tg-theme-destructive-text-color, #d14e4e);
 }
 
 body {
