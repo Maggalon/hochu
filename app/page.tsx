@@ -54,9 +54,13 @@ const wishlists_mock: Wishlist[] = [
   },
 ]
 
+const active_tab_styles = "border-3 font-bold border-accent-text rounded-2xl p-2 w-1/2 flex items-center justify-center text-accent-text"
+const inactive_tab_styles = "border-2 border-hint rounded-2xl p-2 w-1/2 flex items-center justify-center text-hint"
+
 export default function Home() {
 
   const [wishlists, setWishlists] = useState<Wishlist[]>(wishlists_mock)
+  const [tab, setTab] = useState<"wishes" | "wishlists">("wishes")
 
   const context = useContext(TWAContext)
   const webApp = context?.webApp
@@ -90,7 +94,10 @@ export default function Home() {
             
           </div>
           <button className="w-full text-2xl font-bold flex items-center justify-center gap-2 bg-button text-button-text p-3 rounded-3xl"><Plus size={32} />Добавить желание</button>
-          
+          <div className="w-full flex items-center justify-between gap-2">
+            <div onClick={() => {setTab("wishes")}} className={tab === "wishes" ? active_tab_styles : inactive_tab_styles}>Желания</div>
+            <div onClick={() => {setTab("wishlists")}} className={tab === "wishlists" ? active_tab_styles : inactive_tab_styles}>Вишлисты</div>
+          </div>
       </div>
 
       {/* <div className="mt-28 flex items-center justify-between mb-8">
