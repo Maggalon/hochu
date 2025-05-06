@@ -36,14 +36,14 @@ export default function Settings() {
                 <div className="ml-3 text-section-header-text">ЗАБРОНИРОВАННЫЕ ЖЕЛАНИЯ</div>
                 <div className="w-full p-4 rounded-2xl bg-section-background flex flex-col gap-5">
                     <div onClick={() => setBookedDisplay("hide")}  className="flex w-full items-center justify-start gap-4">
-                        <div className="flex items-center justify-center"><div className={`w-5 h-5 bg-${bookedDisplay === "hide" ? "accent-text" : "section-background"} rounded-full border-3 border-section-background ring-2 ring-accent-text`}></div></div>
+                        <div className="flex items-center justify-center"><div className={`w-5 h-5 ${bookedDisplay === "hide" ? "bg-accent-text" : "bg-section-background"} rounded-full border-3 border-section-background ring-2 ring-accent-text`}></div></div>
                         <div className="flex flex-col gap-1">
                             <div className="font-bold text-text">Скрыть</div>
                             <div className="text-hint text-sm">Вы не будете видеть, если кто-то забронировал ваши желания</div>
                         </div>
                     </div>
                     <div onClick={() => setBookedDisplay("show")}  className="flex w-full items-center justify-start gap-4">
-                        <div className="flex items-center justify-center"><div className={`w-5 h-5 bg-${bookedDisplay === "show" ? "accent-text" : "section-background"} rounded-full border-3 border-section-background ring-2 ring-accent-text`}></div></div>
+                        <div className="flex items-center justify-center"><div className={`w-5 h-5 ${bookedDisplay === "show" ? "bg-accent-text" : "bg-section-background"} rounded-full border-3 border-section-background ring-2 ring-accent-text`}></div></div>
                         <div className="flex flex-col gap-1">
                             <div className="font-bold text-text">Показать анонимно</div>
                             <div className="text-hint text-sm">Вы будете видеть, если кто-то забронировал ваши желания</div>
