@@ -78,7 +78,7 @@ export default function Home() {
       <div className="mt-28 flex items-center justify-between mb-8">
         <h1 className="text-2xl font-bold">Мои вишлисты</h1>
         <Link href="/wishlists/create">
-          <button className={`p-2 flex gap-2 items-center bg-[${webApp?.themeParams.button_color}] text-white text-lg font-bold rounded-md`}>
+          <button className={`p-2 flex gap-2 items-center bg-button text-white text-lg font-bold rounded-md`}>
             <PlusCircle className="h-8 w-8" />
             <span>Создать</span>
           </button>

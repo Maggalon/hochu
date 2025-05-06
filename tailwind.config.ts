@@ -11,7 +11,7 @@ export default {
       colors: {
         // background: "var(--background)",
         // foreground: "var(--foreground)",
-        primary: {600: "#d4af37"},
+        button: "var(--tg-theme-button-color)",
       },
     },
   },
