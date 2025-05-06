@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useContext, useState } from "react";
 import Link from "next/link";
-import { Edit, List, Plus, PlusCircle, Settings, Smile } from "lucide-react";
+import { Edit, List, Plus, PlusCircle, Settings, Share, Smile } from "lucide-react";
 import { WishlistCard } from "@/components/wishlist-card";
 import { Wishlist } from "@/lib/types";
 import { TWAContext } from "@/contexts/twa-context";
@@ -74,7 +74,7 @@ export default function Home() {
             <div className="flex flex-col flex-1 w-full gap-4">
               <div className="flex items-center justify-between font-bold text-2xl">
                 <span className="text-text">{webApp?.initDataUnsafe && webApp!.initDataUnsafe.user ? webApp!.initDataUnsafe.user!.first_name : "Пользователь"}</span>
-                <Edit className="text-accent-text" />
+                <Link href={'/settings'}><Edit className="text-accent-text" /></Link>
               </div>
               <div className="flex text-sm gap-2 justify-between">
                 <div className="flex flex-col">
@@ -94,17 +94,22 @@ export default function Home() {
             
             
           </div>
-          <button className="w-full text-2xl font-bold flex items-center justify-center gap-2 bg-button text-button-text p-3 rounded-3xl"><Plus size={32} />Добавить желание</button>
+          <div className="w-full flex gap-2">
+            <button className="w-5/6 text-2xl font-bold flex items-center justify-center gap-2 bg-button text-button-text p-3 rounded-2xl"><Plus size={32} />Добавить желание</button>
+            <button className="w-1/6 flex justify-center items-center border-2 border-button rounded-2xl"><Share className="text-button" /></button>
+          </div>
           <div className="w-full flex items-center justify-between gap-2">
             <div onClick={() => {setTab("wishes")}} className={tab === "wishes" ? active_tab_styles : inactive_tab_styles}>Желания</div>
             <div onClick={() => {setTab("wishlists")}} className={tab === "wishlists" ? active_tab_styles : inactive_tab_styles}>Вишлисты</div>
           </div>
       </div>
 
-      <div className="mt-74 flex flex-col gap-4">
-        <WishItem />
-        <WishItem />
-      </div>
+      {tab === "wishes" &&
+        <div className="mt-74 flex flex-col gap-4">
+          <WishItem />
+          <WishItem />
+        </div>
+      }
       
       {/* <div className="mt-28 flex items-center justify-between mb-8">
         <h1 className="text-2xl font-bold">Мои вишлисты</h1>
