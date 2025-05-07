@@ -55,8 +55,8 @@ const wishlists_mock: Wishlist[] = [
   },
 ]
 
-const active_tab_styles = "border-3 font-bold border-accent-text rounded-2xl p-2 w-1/2 flex items-center justify-center text-accent-text"
-const inactive_tab_styles = "border-2 border-hint rounded-2xl p-2 w-1/2 flex items-center justify-center text-hint"
+const active_tab_styles = "border-3 font-bold border-accent-text rounded-2xl p-1 w-1/2 flex items-center justify-center text-accent-text"
+const inactive_tab_styles = "border-2 border-hint rounded-2xl p-1 w-1/2 flex items-center justify-center text-hint"
 
 export default function Home() {
 
@@ -65,6 +65,16 @@ export default function Home() {
 
   const context = useContext(TWAContext)
   const webApp = context?.webApp
+
+  const shareProfile = () => {
+    try {
+      const shareUrl = `https://t.me/hf_hochu_bot?startapp=profile_${webApp?.initDataUnsafe.user?.id}`
+      webApp?.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}`)
+    } catch(e) {
+      webApp?.showAlert(String(e))
+    }
+    
+  }
 
   return (
     <div className="w-screen pb-10 px-5">
@@ -96,16 +106,16 @@ export default function Home() {
           </div>
           <div className="w-full flex gap-2">
             <button className="w-5/6 text-2xl font-bold flex items-center justify-center gap-2 bg-button text-button-text p-3 rounded-2xl"><Plus size={32} />Добавить желание</button>
-            <button className="w-1/6 flex justify-center items-center border-2 border-button rounded-2xl"><Share className="text-button" /></button>
+            <button onClick={shareProfile} className="w-1/6 flex justify-center items-center border-2 border-button rounded-2xl"><Share className="text-button" /></button>
           </div>
-          <div className="w-full flex items-center justify-between gap-2">
+          <div className="w-full flex items-center justify-between gap-2 mt-8">
             <div onClick={() => {setTab("wishes")}} className={tab === "wishes" ? active_tab_styles : inactive_tab_styles}>Желания</div>
             <div onClick={() => {setTab("wishlists")}} className={tab === "wishlists" ? active_tab_styles : inactive_tab_styles}>Вишлисты</div>
           </div>
       </div>
 
       {tab === "wishes" &&
-        <div className="mt-74 flex flex-col gap-4">
+        <div className="mt-80 flex flex-col gap-4">
           <WishItem />
           <WishItem />
         </div>
