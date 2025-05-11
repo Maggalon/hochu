@@ -11,6 +11,7 @@ declare global {
 
 interface TWAContextProps {
     webApp: Telegram["WebApp"] | undefined;
+    sharedProfileId: number | undefined;
 }
 
 export const TWAContext = createContext<TWAContextProps | undefined>(undefined)
@@ -18,13 +19,58 @@ export const TWAContext = createContext<TWAContextProps | undefined>(undefined)
 export const TWAProvider = ({ children }: Readonly<{children: React.ReactNode}>) => {
 
     const [webApp, setWebApp] = useState<Telegram["WebApp"]>()
+    const [sharedProfileId, setSharedProfileId] = useState<number | undefined>()
 
     const getWebApp = async () => {
         const webApp = await waitForWebApp() as Telegram["WebApp"]
         webApp.ready()
         setWebApp(webApp)
         console.log(webApp);
+        if (webApp.initDataUnsafe.start_param) {
+            if (webApp.initDataUnsafe.start_param.startsWith("profile_")) {
+                setSharedProfileId(Number(webApp.initDataUnsafe.start_param.split("_")[1]))
+            }
+        }
         
+    }
+
+    const getUser = async () => {
+        if (!webApp) return
+
+        const res = await fetch(`/api/user?id=${webApp.initDataUnsafe.user?.id}`)
+        const data = await res.json()
+
+        if (data.error) webApp.showAlert(data.error)
+        
+        if (data.existingUser) {
+            console.log("Existing user:")
+            console.log(data.existingUser);
+            webApp.showConfirm("User fetched successfully")
+        } else {
+            initializeUser()
+        }
+    }
+
+    const initializeUser = async () => {
+        if (!webApp) return
+
+        const res = await fetch('/api/user', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                tg_id: webApp.initDataUnsafe.user?.id,
+                type: 'init'
+            })
+        })
+        const data = await res.json()
+
+        if (data.error) webApp.showAlert(data.error + ", " + data.details)
+
+        if (data.newUser) {
+            console.log("New user:")
+            console.log(data.newUser);
+            webApp.showConfirm("User created successfully")
+        }
     }
 
     const waitForWebApp = () => {
@@ -46,8 +92,14 @@ export const TWAProvider = ({ children }: Readonly<{children: React.ReactNode}>)
         getWebApp()
     }, [])
 
+    useEffect(() => {
+        if (webApp) {
+            getUser()
+        }
+    }, [webApp])
+
     return (
-        <TWAContext.Provider value={{ webApp }}>
+        <TWAContext.Provider value={{ webApp, sharedProfileId }}>
             {children}
         </TWAContext.Provider>
     )

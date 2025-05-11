@@ -1,6 +1,7 @@
 "use client"
 
-import { Check, Save } from "lucide-react"
+import { ChevronLeft, Save } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 
 export default function Settings() {
@@ -9,10 +10,14 @@ export default function Settings() {
     const [userName, setUserName] = useState<string>("Пользователь")
     const [changeUserName, setChangeUserName] = useState<boolean>(false)
 
+    const router = useRouter()
 
     return (
         <div className="w-screen p-5 flex flex-col items-center">
-            <div className="text-text text-2xl font-bold mb-10">Настройки</div>
+            <div className="flex relative mb-10 w-full items-center">
+                <ChevronLeft onClick={() => router.back()} className="absolute" />
+                <span className="font-bold w-full text-2xl text-center">Настройки</span>
+            </div>
             <div className="w-full flex flex-col items-start gap-1">
                 <div className="ml-3 text-section-header-text">ДАННЫЕ ПРОФИЛЯ</div>
                 <div className="w-full p-4 rounded-2xl bg-section-background flex flex-col gap-5">

@@ -9,6 +9,15 @@ import { Wishlist } from "@/lib/types";
 import { TWAContext } from "@/contexts/twa-context";
 import { WishItem } from "@/components/wish-item";
 
+const test_user_info = {
+  id: 972737130,
+  name: "Георгий",
+  image_url: "https://t.me/i/userpic/320/mgIFxxSdhNUauSY0_rBsNFukIPTIJ4DAI1AUi-vGW0s.svg",
+  wishes: 18,
+  subscribers: 18,
+  subscriptions: 18,
+}
+
 const wishlists_mock: Wishlist[] = [
   {
     id: "1",
@@ -65,6 +74,7 @@ export default function Home() {
 
   const context = useContext(TWAContext)
   const webApp = context?.webApp
+  const sharedProfileId = context?.sharedProfileId
 
   const shareProfile = () => {
     try {
