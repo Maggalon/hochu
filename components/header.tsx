@@ -69,15 +69,15 @@ export const Header: React.FC<HeaderProps> = ({ user, type, tab, setTab }) => {
                 <button onClick={shareProfile} className="w-1/6 flex justify-center items-center border-2 border-button rounded-2xl"><Share className="text-button" /></button>
             </div>
           }
-          {type === "shared" && !subscription &&
-            <div className="w-full flex gap-2">
-                <button onClick={createSubscription} className="w-full text-2xl font-bold flex items-center justify-center gap-2 bg-button text-button-text p-3 rounded-2xl">Подписаться</button>
-            </div>
-          }
-          {type === 'shared' && subscription &&
-            <div className="w-full flex gap-2">
-                <button className="w-full text-2xl font-bold flex items-center justify-center gap-2 bg-subtitle-text text-button-text p-3 rounded-2xl">Вы подписаны</button>
-            </div>
+          {type === "shared" && (
+                !subscription ?
+                <div className="w-full flex gap-2">
+                    <button onClick={createSubscription} className="w-full text-2xl font-bold flex items-center justify-center gap-2 bg-button text-button-text p-3 rounded-2xl">Подписаться</button>
+                </div> :
+                <div className="w-full flex gap-2">
+                    <button className="w-full text-2xl font-bold flex items-center justify-center gap-2 bg-subtitle-text text-button-text p-3 rounded-2xl">Вы подписаны</button>
+                </div>
+            ) 
           }
           <div className="w-full flex items-center justify-between gap-2 mt-8">
             <div onClick={() => {setTab("wishes")}} className={tab === "wishes" ? active_tab_styles : inactive_tab_styles}>Желания</div>
