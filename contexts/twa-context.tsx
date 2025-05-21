@@ -216,7 +216,7 @@ export const TWAProvider = ({ children }: Readonly<{children: React.ReactNode}>)
     }, [webApp])
 
     useEffect(() => {
-        if (sharedProfileId && sharedProfileId !== user?.tg_id) {
+        if (sharedProfileId && user?.tg_id && sharedProfileId !== user?.tg_id) {
           getSharedUser()
           getSubscription()
         }
