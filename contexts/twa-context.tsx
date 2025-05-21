@@ -60,6 +60,8 @@ export const TWAProvider = ({ children }: Readonly<{children: React.ReactNode}>)
         if (!webApp) return
 
         try {
+            console.log("Shared profile id: " + sharedProfileId + ", user id: " + user?.id);
+            
             const res = await fetch('/api/subscription', {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
