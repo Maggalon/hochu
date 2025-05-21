@@ -1,13 +1,14 @@
 "use client"
 
 import Image from "next/image";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { Edit, List, Plus, PlusCircle, Settings, Share, Smile } from "lucide-react";
 import { WishlistCard } from "@/components/wishlist-card";
-import { Wishlist } from "@/lib/types";
+import { User, Wishlist } from "@/lib/types";
 import { TWAContext } from "@/contexts/twa-context";
 import { WishItem } from "@/components/wish-item";
+import { Header } from "@/components/header";
 
 const test_user_info = {
   id: 972737130,
@@ -64,65 +65,43 @@ const wishlists_mock: Wishlist[] = [
   },
 ]
 
-const active_tab_styles = "border-3 font-bold border-accent-text rounded-2xl p-1 w-1/2 flex items-center justify-center text-accent-text"
-const inactive_tab_styles = "border-2 border-hint rounded-2xl p-1 w-1/2 flex items-center justify-center text-hint"
-
 export default function Home() {
 
   const [wishlists, setWishlists] = useState<Wishlist[]>(wishlists_mock)
   const [tab, setTab] = useState<"wishes" | "wishlists">("wishes")
+  const [sharedUser, setSharedUser] = useState<User | undefined>()
 
   const context = useContext(TWAContext)
   const webApp = context?.webApp
   const sharedProfileId = context?.sharedProfileId
+  const user = context?.user
 
-  const shareProfile = () => {
-    try {
-      const shareUrl = `https://t.me/hf_hochu_bot?startapp=profile_${webApp?.initDataUnsafe.user?.id}`
-      webApp?.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}`)
-    } catch(e) {
-      webApp?.showAlert(String(e))
+  const getSharedUser = async () => {
+    const res = await fetch(`/api/user?id=${sharedProfileId}`)
+    const data = await res.json()
+
+    if (data.existingUser) {
+        console.log("Existing user:")
+        console.log(data.existingUser);
+        setSharedUser(data.existingUser)
+    } else {
+        webApp?.showAlert(data.error.message)
     }
-    
   }
+
+  useEffect(() => {
+    if (sharedProfileId && sharedProfileId !== user?.tg_id) {
+      getSharedUser()
+    }
+  }, [sharedProfileId])
+
 
   return (
     <div className="w-screen pb-10 px-5">
-      <div className='fixed right-0 top-0 z-50 bg-section-background p-5 w-full flex flex-col gap-5 items-center justify-center'>
-          <div className="w-full flex items-center justify-between gap-3">
-            <div>{webApp?.initDataUnsafe && webApp!.initDataUnsafe.user?.photo_url ? <Image src={webApp!.initDataUnsafe.user!.photo_url!} alt={"Profile pic"} width={96} height={96} className="rounded-full" /> :  <Smile size={96} className='text-accent-text bg-accent-text/20 rounded-full p-2' />}</div>
-            <div className="flex flex-col flex-1 w-full gap-4">
-              <div className="flex items-center justify-between font-bold text-2xl">
-                <span className="text-text">{webApp?.initDataUnsafe && webApp!.initDataUnsafe.user ? webApp!.initDataUnsafe.user!.first_name : "Пользователь"}</span>
-                <Link href={'/settings'}><Edit className="text-accent-text" /></Link>
-              </div>
-              <div className="flex text-sm gap-2 justify-between">
-                <div className="flex flex-col">
-                  <span className="text-lg font-bold text-text">18</span>
-                  <span className="text-text">Желания</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-lg font-bold text-text">18</span>
-                  <span className="text-text">Подписчики</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-lg font-bold text-text">18</span>
-                  <span className="text-text">Подписки</span>
-                </div>
-              </div>
-            </div>
-            
-            
-          </div>
-          <div className="w-full flex gap-2">
-            <button className="w-5/6 text-2xl font-bold flex items-center justify-center gap-2 bg-button text-button-text p-3 rounded-2xl"><Plus size={32} />Добавить желание</button>
-            <button onClick={shareProfile} className="w-1/6 flex justify-center items-center border-2 border-button rounded-2xl"><Share className="text-button" /></button>
-          </div>
-          <div className="w-full flex items-center justify-between gap-2 mt-8">
-            <div onClick={() => {setTab("wishes")}} className={tab === "wishes" ? active_tab_styles : inactive_tab_styles}>Желания</div>
-            <div onClick={() => {setTab("wishlists")}} className={tab === "wishlists" ? active_tab_styles : inactive_tab_styles}>Вишлисты</div>
-          </div>
-      </div>
+      {sharedUser ?
+        <Header user={sharedUser!} type="shared" tab={tab} setTab={setTab} /> :
+        <Header user={user!} type="direct" tab={tab} setTab={setTab} />
+      }
 
       {tab === "wishes" &&
         <div className="mt-80 flex flex-col gap-4">

@@ -20,3 +20,15 @@ export interface Wishlist {
     price: number | null
     bookedBy: string | null
   }
+
+export interface User {
+  id: number;
+  tg_id: number;
+  name: string;
+  img_url: string;
+  birthday: string | null;
+  subscribers: number;
+  subscriptions: number;
+  show_booked: boolean;
+  created_at: string;
+}

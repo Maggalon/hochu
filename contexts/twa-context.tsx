@@ -1,5 +1,6 @@
 "use client"
 
+import { User } from '@/lib/types';
 import { Telegram } from '@twa-dev/types';
 import { createContext, useEffect, useState } from 'react';
 
@@ -12,6 +13,7 @@ declare global {
 interface TWAContextProps {
     webApp: Telegram["WebApp"] | undefined;
     sharedProfileId: number | undefined;
+    user: User | undefined;
 }
 
 export const TWAContext = createContext<TWAContextProps | undefined>(undefined)
@@ -20,6 +22,7 @@ export const TWAProvider = ({ children }: Readonly<{children: React.ReactNode}>)
 
     const [webApp, setWebApp] = useState<Telegram["WebApp"]>()
     const [sharedProfileId, setSharedProfileId] = useState<number | undefined>()
+    const [user, setUser] = useState<User>()
 
     const getWebApp = async () => {
         const webApp = await waitForWebApp() as Telegram["WebApp"]
@@ -40,15 +43,18 @@ export const TWAProvider = ({ children }: Readonly<{children: React.ReactNode}>)
         const res = await fetch(`/api/user?id=${webApp.initDataUnsafe.user?.id}`)
         const data = await res.json()
 
-        if (data.error) webApp.showAlert(data.error)
+        // if (data.error) webApp.showAlert(data.error)
         // console.log(data.error)
         
         if (data.existingUser) {
             console.log("Existing user:")
             console.log(data.existingUser);
+            setUser(data.existingUser)
             webApp.showConfirm("User fetched successfully")
         } else if (data.error.code === "PGRST116") {
             initializeUser()
+        } else {
+            webApp.showAlert(data.error.message)
         }
     }
 
@@ -72,6 +78,7 @@ export const TWAProvider = ({ children }: Readonly<{children: React.ReactNode}>)
         if (data.newUser) {
             console.log("New user:")
             console.log(data.newUser);
+            setUser(data.newUser)
             webApp.showConfirm("User created successfully")
         }
     }
@@ -102,7 +109,7 @@ export const TWAProvider = ({ children }: Readonly<{children: React.ReactNode}>)
     }, [webApp])
 
     return (
-        <TWAContext.Provider value={{ webApp, sharedProfileId }}>
+        <TWAContext.Provider value={{ webApp, sharedProfileId, user }}>
             {children}
         </TWAContext.Provider>
     )
