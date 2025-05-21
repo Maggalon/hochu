@@ -67,7 +67,7 @@ export const TWAProvider = ({ children }: Readonly<{children: React.ReactNode}>)
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     user_id: sharedProfileId,
-                    sub_id: user?.id
+                    sub_id: user?.tg_id
                 })
             })
             const data = await res.json()
@@ -78,7 +78,7 @@ export const TWAProvider = ({ children }: Readonly<{children: React.ReactNode}>)
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        tg_id: user?.id,
+                        tg_id: user?.tg_id,
                         subscriptions: user?.subscriptions! + 1
                     })
                 })
