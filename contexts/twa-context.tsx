@@ -220,7 +220,7 @@ export const TWAProvider = ({ children }: Readonly<{children: React.ReactNode}>)
           getSharedUser()
           getSubscription()
         }
-    }, [sharedProfileId])
+    }, [sharedProfileId, user])
 
     return (
         <TWAContext.Provider value={{ webApp, 
