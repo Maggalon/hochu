@@ -1,9 +1,9 @@
-import { createClient } from "@/lib/supabase"
+import { supabase } from "@/lib/supabase"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(req: NextRequest) {
     try {
-        const supabase = createClient()
+        //const supabase = createClient()
 
         const body = await req.json()
 
@@ -43,19 +43,19 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
 
     try {
-        const supabase = createClient()
+        //const supabase = createClient()
 
         const { searchParams } = new URL(req.url)
 
         const tg_id = searchParams.get("id")
-
+        
         const { data: existingUser, error: checkError } = await supabase
             .from('users')
             .select("*")
             .eq("tg_id", tg_id)
             .single()
 
-        if (checkError) return NextResponse.json({ error: checkError.message, status: 400 })
+        if (checkError) return NextResponse.json({ error: checkError, status: 400 })
 
         return NextResponse.json({ existingUser })
     } catch (e) {

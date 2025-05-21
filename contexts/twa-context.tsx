@@ -41,12 +41,13 @@ export const TWAProvider = ({ children }: Readonly<{children: React.ReactNode}>)
         const data = await res.json()
 
         if (data.error) webApp.showAlert(data.error)
+        // console.log(data.error)
         
         if (data.existingUser) {
             console.log("Existing user:")
             console.log(data.existingUser);
             webApp.showConfirm("User fetched successfully")
-        } else {
+        } else if (data.error.code === "PGRST116") {
             initializeUser()
         }
     }
