@@ -49,6 +49,8 @@ export const TWAProvider = ({ children }: Readonly<{children: React.ReactNode}>)
         const data = await res.json()
 
         if (data.existingSubscription) {
+            console.log(data.existingSubscription);
+            
             setSubscription(data.existingSubscription)            
             webApp.showConfirm("Subscription found")
         } else {
@@ -111,7 +113,8 @@ export const TWAProvider = ({ children }: Readonly<{children: React.ReactNode}>)
                     
                     return
                 }
-
+                console.log(data.newSubscription);
+                
                 setSubscription(data.newSubscription)
                 webApp.showConfirm("Subscribed successfully")
             } else {
