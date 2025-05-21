@@ -58,59 +58,66 @@ export const TWAProvider = ({ children }: Readonly<{children: React.ReactNode}>)
 
     const createSubscription = async () => {
         if (!webApp) return
-        
-        const res = await fetch('/api/subscription', {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                user_id: sharedProfileId,
-                sub_id: user?.id
-            })
-        })
-        const data = await res.json()
 
-        if (data.newSubscription) {
-            // Updating user subscriptions count
-            const res = await fetch('/api/user', {
+        try {
+            const res = await fetch('/api/subscription', {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    tg_id: user?.id,
-                    subscriptions: user?.subscriptions! + 1
+                    user_id: sharedProfileId,
+                    sub_id: user?.id
                 })
             })
             const data = await res.json()
 
-            if (data.updatedUser) {
-                setUser(data.updatedUser)
+            if (data.newSubscription) {
+                // Updating user subscriptions count
+                const res = await fetch('/api/user', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        tg_id: user?.id,
+                        subscriptions: user?.subscriptions! + 1
+                    })
+                })
+                const data = await res.json()
+
+                if (data.updatedUser) {
+                    setUser(data.updatedUser)
+                } else {
+                    webApp.showAlert(data.details)
+                    return
+                }
+
+                // Updating sharedUser subscribers count
+                const res2 = await fetch('/api/user', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        tg_id: sharedProfileId,
+                        subscribers: sharedUser?.subscribers! + 1
+                    })
+                })
+                const data2 = await res2.json()
+
+                if (data2.updatedUser) {
+                    setSharedUser(data2.updatedUser)
+                } else {
+                    webApp.showAlert(data2.details)
+                    return
+                }
+
+                setSubscription(data.newSubscription)
+                webApp.showConfirm("Subscribed successfully")
             } else {
                 webApp.showAlert(data.details)
-                return
             }
-
-            // Updating sharedUser subscribers count
-            const res2 = await fetch('/api/user', {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    tg_id: sharedProfileId,
-                    subscribers: sharedUser?.subscribers! + 1
-                })
-            })
-            const data2 = await res2.json()
-
-            if (data2.updatedUser) {
-                setSharedUser(data2.updatedUser)
-            } else {
-                webApp.showAlert(data2.details)
-                return
-            }
-
-            setSubscription(data.newSubscription)
-            webApp.showConfirm("Subscribed successfully")
-        } else {
-            webApp.showAlert(data.details)
+        } catch (e) {
+            console.log(e);
+            
         }
+        
+        
 
     }
 
