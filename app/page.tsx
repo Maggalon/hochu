@@ -99,8 +99,8 @@ export default function Home() {
   return (
     <div className="w-screen pb-10 px-5">
       {sharedUser ?
-        <Header user={sharedUser!} type="shared" tab={tab} setTab={setTab} /> :
-        <Header user={user!} type="direct" tab={tab} setTab={setTab} />
+        <Header user={sharedUser} type="shared" tab={tab} setTab={setTab} /> :
+        <Header user={user} type="direct" tab={tab} setTab={setTab} />
       }
 
       {tab === "wishes" &&

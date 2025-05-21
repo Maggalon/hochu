@@ -8,7 +8,7 @@ import { useContext } from "react";
 import Image from "next/image";
 
 interface HeaderProps {
-    user: User;
+    user?: User;
     type: "direct" | "shared";
     tab: "wishes" | "wishlists";
     setTab: (tab: "wishes" | "wishlists") => void;
@@ -38,7 +38,7 @@ export const Header: React.FC<HeaderProps> = ({ user, type, tab, setTab }) => {
             <div>{user?.img_url ? <Image src={user.img_url} alt={"Profile pic"} width={96} height={96} className="rounded-full" /> : <Smile size={96} className='text-accent-text bg-accent-text/20 rounded-full p-2' />}</div>
             <div className="flex flex-col flex-1 w-full gap-4">
               <div className="flex items-center justify-between font-bold text-2xl">
-                <span className="text-text">{user.name}</span>
+                <span className="text-text">{user?.name ? user.name : "Пользователь"}</span>
                 {type === "direct" && <Link href={'/settings'}><Edit className="text-accent-text" /></Link>}
               </div>
               <div className="flex text-sm gap-2 justify-between">
@@ -47,11 +47,11 @@ export const Header: React.FC<HeaderProps> = ({ user, type, tab, setTab }) => {
                   <span className="text-text">Желания</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-lg font-bold text-text">{user.subscribers}</span>
+                  <span className="text-lg font-bold text-text">{user?.subscribers ? user.subscribers : 0}</span>
                   <span className="text-text">Подписчики</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-lg font-bold text-text">{user.subscriptions}</span>
+                  <span className="text-lg font-bold text-text">{user?.subscriptions ? user.subscriptions : 0}</span>
                   <span className="text-text">Подписки</span>
                 </div>
               </div>
