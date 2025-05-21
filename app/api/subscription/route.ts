@@ -9,6 +9,8 @@ export async function GET(req: NextRequest) {
 
         const user_id = searchParams.get("user_id")
         const subscriber_id = searchParams.get("sub_id")
+        console.log(user_id, subscriber_id);
+        
         
         const { data: existingSubscription, error: checkError } = await supabase
             .from('subscriptions')
