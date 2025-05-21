@@ -69,31 +69,14 @@ export default function Home() {
 
   const [wishlists, setWishlists] = useState<Wishlist[]>(wishlists_mock)
   const [tab, setTab] = useState<"wishes" | "wishlists">("wishes")
-  const [sharedUser, setSharedUser] = useState<User | undefined>()
 
   const context = useContext(TWAContext)
   const webApp = context?.webApp
   const sharedProfileId = context?.sharedProfileId
   const user = context?.user
+  const sharedUser = context?.sharedUser
 
-  const getSharedUser = async () => {
-    const res = await fetch(`/api/user?id=${sharedProfileId}`)
-    const data = await res.json()
-
-    if (data.existingUser) {
-        console.log("Existing user:")
-        console.log(data.existingUser);
-        setSharedUser(data.existingUser)
-    } else {
-        webApp?.showAlert(data.error.message)
-    }
-  }
-
-  useEffect(() => {
-    if (sharedProfileId && sharedProfileId !== user?.tg_id) {
-      getSharedUser()
-    }
-  }, [sharedProfileId])
+  
 
 
   return (

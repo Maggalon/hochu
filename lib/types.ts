@@ -32,3 +32,9 @@ export interface User {
   show_booked: boolean;
   created_at: string;
 }
+
+export interface Subscription {
+  id: number;
+  user_id: number;
+  subscriber_id: number;
+}
