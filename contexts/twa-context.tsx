@@ -47,10 +47,9 @@ export const TWAProvider = ({ children }: Readonly<{children: React.ReactNode}>)
 
         const res = await fetch(`/api/subscription?user_id=${sharedProfileId}&sub_id=${user?.tg_id}`)
         const data = await res.json()
+        console.log(data);
 
         if (data.existingSubscription) {
-            console.log(data.existingSubscription);
-            
             setSubscription(data.existingSubscription)            
             webApp.showConfirm("Subscription found")
         } else {
