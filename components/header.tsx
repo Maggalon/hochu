@@ -24,7 +24,7 @@ export const Header: React.FC<HeaderProps> = ({ user, type, tab, setTab }) => {
 
     const shareProfile = () => {
         try {
-            const shareUrl = `https://t.me/hf_hochu_bot?startapp=profile_${webApp?.initDataUnsafe.user?.id}`
+            const shareUrl = `https://t.me/hochu_app_bot?startapp=profile_${webApp?.initDataUnsafe.user?.id}`
             webApp?.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}`)
         } catch(e) {
             webApp?.showAlert(String(e))
