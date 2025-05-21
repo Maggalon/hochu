@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
             .select()
             .single()
 
-        if (subError) return NextResponse.json({ error: "Failed making subscription", details: subError instanceof Error ? subError.message : String(subError) }, { status: 400 })
+        if (subError) return NextResponse.json({ error: subError }, { status: 400 })
 
         return NextResponse.json({ newSubscription })
     } catch (e) {

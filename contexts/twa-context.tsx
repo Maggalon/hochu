@@ -114,9 +114,9 @@ export const TWAProvider = ({ children }: Readonly<{children: React.ReactNode}>)
                 setSubscription(data.newSubscription)
                 webApp.showConfirm("Subscribed successfully")
             } else {
-                console.log(data.details);
+                console.log(data.error);
                 
-                webApp.showAlert(data.details)
+                webApp.showAlert(data.error.message)
             }
         } catch (e) {
             console.log(e);
