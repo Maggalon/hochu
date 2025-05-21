@@ -86,6 +86,8 @@ export const TWAProvider = ({ children }: Readonly<{children: React.ReactNode}>)
                     setUser(data.updatedUser)
                 } else {
                     webApp.showAlert(data.details)
+                    console.log(data.details);
+                    
                     return
                 }
 
@@ -104,12 +106,16 @@ export const TWAProvider = ({ children }: Readonly<{children: React.ReactNode}>)
                     setSharedUser(data2.updatedUser)
                 } else {
                     webApp.showAlert(data2.details)
+                    console.log(data2.details);
+                    
                     return
                 }
 
                 setSubscription(data.newSubscription)
                 webApp.showConfirm("Subscribed successfully")
             } else {
+                console.log(data.details);
+                
                 webApp.showAlert(data.details)
             }
         } catch (e) {
