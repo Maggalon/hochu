@@ -14,6 +14,8 @@ export async function POST(req: NextRequest) {
                 .from("users")
                 .insert({
                     tg_id: body.tg_id,
+                    name: body.name,
+                    img_url: body.img_url
                 })
                 .select()
                 .single()

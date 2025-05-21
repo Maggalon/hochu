@@ -60,6 +60,8 @@ export const TWAProvider = ({ children }: Readonly<{children: React.ReactNode}>)
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 tg_id: webApp.initDataUnsafe.user?.id,
+                name: webApp.initDataUnsafe.user?.first_name,
+                img_url: webApp.initDataUnsafe.user?.photo_url,
                 type: 'init'
             })
         })
