@@ -5,10 +5,10 @@ export async function GET(req: NextRequest) {
 
     try {
 
-        const { searchParams } = new URL(req.url)
+        // const { searchParams } = new URL(req.url)
 
-        const user_id = searchParams.get("user_id")
-        const subscriber_id = searchParams.get("sub_id")
+        const user_id = req.nextUrl.searchParams.get("user_id")
+        const subscriber_id = req.nextUrl.searchParams.get("sub_id")
         console.log(user_id, subscriber_id);
         
         
